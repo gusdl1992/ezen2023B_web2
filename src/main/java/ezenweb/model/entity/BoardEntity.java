@@ -18,27 +18,41 @@ import java.util.Date;
 @NoArgsConstructor
 public class BoardEntity {  // 테이블
     @Id // PK
-    @GeneratedValue( strategy = GenerationType.IDENTITY)
-    @Column(name = "게시물번호" , nullable = false)
-    private int bno;            // 게시물 번호 PK
-    @Column(columnDefinition = "text" , name = "제목") // DB 타입을 변경 할수 있다.
-    private String btitle;      // 제목
+    @GeneratedValue( strategy = GenerationType.IDENTITY ) // auto_increment
+    private int bno;        // 게시물번호 PK
+    @Column(name = "title", length = 10 , nullable = false , unique = true )
+    private String btitle; // 게시물제목
 
-    private  boolean 필드0;
+    @Column(columnDefinition = "longtext")
+    private String btitle2;
+
+    @Column(columnDefinition = "date")
+    private String btitle3;
+
+    private boolean 필드0;
+
     private byte 필드1;
     private short 필드2;
-    private  long 필드3;
+    private long 필드3;
 
-    private  char 필드4;
+    private char 필드4;
+
     private double 필드5;
-    private  float 필드6;
+    private float 필드6;
 
     private Date 필드7;
     private LocalDateTime 필드8;
 
-
+    @Column( columnDefinition = "unsigned int(11)" )
+    private int 필드9;
 
 }
+/*
+    create table BoardEntitiy(
+        bno int ,
+        btitle varchar(255)
+    )
+*/
 
 
 
