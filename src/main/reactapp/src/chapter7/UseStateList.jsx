@@ -19,6 +19,7 @@ export default function UseStateList(props){
         setPointList(pointList);    // 재랜더링X
 
     }; // f e 
+    
 
     // 3. 
     function 입력변경(e){
