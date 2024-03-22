@@ -20,7 +20,22 @@ public class BoardEntity {  // 테이블
     @Id // PK
     @GeneratedValue( strategy = GenerationType.IDENTITY ) // auto_increment
     private int bno;        // 게시물번호 PK
-    @Column(name = "title", length = 10 , nullable = false , unique = true )
+
+    private String btitle;  // 게시물제목
+
+    // 단방향 사용방법
+    @JoinColumn // fk
+    @ManyToOne // 다수가 하나에게  M : 1
+    private MemberEntity memberEntity;
+
+}
+/*
+    create table BoardEntitiy(
+        bno int ,
+        btitle varchar(255)
+    )
+
+        @Column(name = "title", length = 10 , nullable = false , unique = true )
     private String btitle; // 게시물제목
 
     @Column(columnDefinition = "longtext")
@@ -45,13 +60,6 @@ public class BoardEntity {  // 테이블
 
     @Column( columnDefinition = "int(11) unsigned" )
     private int 필드9;
-
-}
-/*
-    create table BoardEntitiy(
-        bno int ,
-        btitle varchar(255)
-    )
 */
 
 
