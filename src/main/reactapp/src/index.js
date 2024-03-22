@@ -19,11 +19,16 @@ import Clock from './chapter4/Clock';
 // chapter5 실습
 import CommentList from './chapter5/CommentList';
 
+// chapter7 예제/실습
+import Counter from './chapter7/Counter';
+import UseStateList from './chapter7/UseStateList';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-// 챕터 5
+// 챕터 7
 root.render(
-  <CommentList/>
+  // <Counter/>
+  <UseStateList/>
 );
 
 // root.render(  // !!!!!!!!!! 여기가 랜더링 되는 곳
@@ -45,6 +50,11 @@ root.render(
 //     </React.StrictMode>
 //   );
 // },1000);
+
+// 챕터 5
+// root.render(
+//   <CommentList/>
+// );
 
 
 // If you want to start measuring performance in your app, pass a function

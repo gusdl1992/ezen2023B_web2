@@ -43,7 +43,7 @@ public class BoardEntity {  // 테이블
     private Date 필드7;
     private LocalDateTime 필드8;
 
-    @Column( columnDefinition = "unsigned int(11)" )
+    @Column( columnDefinition = "int(11) unsigned" )
     private int 필드9;
 
 }
