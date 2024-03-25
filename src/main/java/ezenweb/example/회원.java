@@ -1,6 +1,7 @@
 package ezenweb.example;
 
 
+import jakarta.persistence.Id;
 import lombok.*;
 
 import java.util.ArrayList;

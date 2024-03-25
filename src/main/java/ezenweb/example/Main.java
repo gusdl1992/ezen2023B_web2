@@ -30,6 +30,7 @@ public class Main {
 
         System.out.println("m1.get내가쓴글() = " + m1.get내가쓴글());
 
+
     }
 }
 /*

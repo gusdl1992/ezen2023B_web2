@@ -2,20 +2,46 @@ package ezenweb.model.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity // 해당 클래스와 연동DB내 테이블과 매핑/연결
 @Table( name = "board")
-@Setter
 @NoArgsConstructor@AllArgsConstructor
-@Builder
+@Setter @Getter @ToString @Builder
 public class BoardEntity { // 테이블
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int bno;
+
+    @Column(columnDefinition = "longtext")
+    private String bcontent;
+
+    @Column
+    @ColumnDefault("0")
+    private int bview;
+
+    // FK 필드 (단방향)
+    @JoinColumn(name = "mno_fk") // fk 필드명
+    @ManyToOne  // 해당 필드 참조
+    private MemberEntity memberEntity;
+
+
+    // 양방향 : 댓글 FK
+    @OneToMany(mappedBy = "boardEntity")
+    @ToString.Exclude
+    @Builder.Default
+    private List<ReplyEntity> replyEntityList = new ArrayList<>();
+
+}
+
+/* 새로 만들기전 코드
     @Id // PK
     @GeneratedValue( strategy = GenerationType.IDENTITY ) // auto_increment
     private int bno;        // 게시물번호 PK
@@ -25,7 +51,9 @@ public class BoardEntity { // 테이블
     @ManyToOne  // 다수가 하나에게     M:1
     private MemberEntity memberEntity;
 
-}
+*/
+
+
 /*
     create table BoardEntitiy(
         bno int ,

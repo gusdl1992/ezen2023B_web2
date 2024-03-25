@@ -1,13 +1,8 @@
 package ezenweb.example;
 
+import jakarta.persistence.Id;
 import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Getter
-@Setter
-@ToString
 public class 댓글 {
     private int 번호;
     private String 내용;
