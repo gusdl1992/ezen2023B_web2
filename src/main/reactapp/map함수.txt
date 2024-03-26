@@ -1,0 +1,8 @@
+JS  :   배열/리스트.map( (value , index) => {} )
+
+JSX :
+{
+
+    배열/리스트.map( (value , index) => {} )
+
+}

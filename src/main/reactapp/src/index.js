@@ -28,6 +28,12 @@ import Counter2 from './chapter7/Counter2';
 import ConfirmButton from './chapter8/ConfirmButton';
 // chapter9 예제/실습
 import LandingPage from './chapter9/LandingPage';
+import AttendanceBook from './chapter10/AttendanceBook';
+import NameForm from './chapter11/NameForm';
+// import SignUp from './chapter11/SignUp';
+
+// 11챕터 같이 실습
+import SignUp from './component/member/SignUp';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -35,14 +41,23 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <Counter/>
   //<UseStateList/>
-  <Counter2/>
+  // <Counter2/>
 
   // 챕터 8
   //<ConfirmButton/>
   
   // 챕터9
   // <LandingPage />
+
+  // 챕터10
+  //<AttendanceBook/>
+
+  // 챕터11
+  //<NameForm/>
+  //<SignUp/>
+  <SignUp/>
 );
+
 
 
 // root.render(  // !!!!!!!!!! 여기가 랜더링 되는 곳
