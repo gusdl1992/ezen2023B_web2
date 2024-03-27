@@ -35,6 +35,15 @@ import NameForm from './chapter11/NameForm';
 // 11챕터 같이 실습
 import SignUp from './component/member/SignUp';
 
+
+// 0 chapter0 axios 
+import Axios컴포넌트 from './chapter0/Axios컴포넌트';
+// 0 chapter Router
+import Route컴포넌트 from './chapter0/Route컴포넌트';
+
+// web2 라우터 컴포넌트
+import Index from './component/Index';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // 챕터 7
@@ -55,7 +64,12 @@ root.render(
   // 챕터11
   //<NameForm/>
   //<SignUp/>
-  <SignUp/>
+  //<SignUp/>
+
+  // 챕터0
+  // <Axios컴포넌트/>
+  //<Route컴포넌트/>
+  <Index/>
 );
 
 

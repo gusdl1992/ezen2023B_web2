@@ -18,14 +18,19 @@ export default function SignUp(props){
         console.log(memail);
         console.log(mpassword);
         console.log(mname);
-        /*
-            ContentType : application/json
-            axios.HTTP메소드명(url).then(응답매개변수 => {응답 로직 } )
-        
-        */
+
        let info = { memail : memail , mpassword : mpassword , mname : mname }
-        axios.post("http://localhost:8080/member/signup/post.do" ,info)
-        .then(Response => { console.log(Response) } )
+        axios.post("/member/signup/post.do" ,info) // 4xx
+        .then(response => { console.log(response)       // 2xx
+            if(response.data){
+                alert('회원가입 성공');
+                window.location.href="/member/login";   // <a/> 태그
+
+            }else{
+                alert('회원가입 실패')
+            }
+        } )
+        .catch( error =>{ console.log(error);}) // 5xx
     }
 
     return(<>
