@@ -44,6 +44,16 @@ import Route컴포넌트 from './chapter0/Route컴포넌트';
 // web2 라우터 컴포넌트
 import Index from './component/Index';
 
+
+
+// chapter 12 실습
+import Calculator from './chapter12/Calculator';
+
+
+// chapter 13
+import ProfileCard from './chapter13/chapter13_실습/ProfileCard';
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // 챕터 7
@@ -70,6 +80,8 @@ root.render(
   // <Axios컴포넌트/>
   //<Route컴포넌트/>
   <Index/>
+  //<Calculator/>
+  // <ProfileCard/>
 );
 
 

@@ -22,12 +22,15 @@ export default function SignUp(props){
        let info = { memail : memail , mpassword : mpassword , mname : mname }
         axios.post("/member/signup/post.do" ,info) // 4xx
         .then(response => { console.log(response)       // 2xx
-            if(response.data){
+            if(response.data == 1){
                 alert('회원가입 성공');
                 window.location.href="/member/login";   // <a/> 태그
-
-            }else{
+            }else if(response.data == -1){
                 alert('회원가입 실패')
+            }else if(response.data == 0){
+                alert('아이디 중복!')
+            }else{
+                alert('관리자 문의')
             }
         } )
         .catch( error =>{ console.log(error);}) // 5xx

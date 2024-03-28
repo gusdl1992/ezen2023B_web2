@@ -16,23 +16,26 @@ public class MemberService {
     MemberEntityRepository memberEntityRepository;
 
     // 1. 회원가입
-    public boolean doSignupPost(MemberDto memberDto){
+    public int doSignupPost(MemberDto memberDto){
         System.out.println("MemberService.doSignupPost");
         System.out.println("memberDto = " + memberDto);
-
-        try {
-            // -- Dao 아닌 엔티티 이용한 레코드 저장하는 방법
-            // 1. 엔티티를 만든다
-            // 2. 리포지토리를 통한 엔티티를 저장한다. ( 엔티티 저장 성공시 매핑된 엔티티 반환 )
-            MemberEntity savedEntity = memberEntityRepository.save(memberDto.toEntity()); // insert
-            // 3. 엔티티 생성이 되었는지 아닌지 확인 (PK)
-            if(savedEntity.getMno() > 0){
-                return true;
+        int result = idCheck(memberDto);
+        if (result != 0 ){
+            try {
+                // -- Dao 아닌 엔티티 이용한 레코드 저장하는 방법
+                // 1. 엔티티를 만든다
+                // 2. 리포지토리를 통한 엔티티를 저장한다. ( 엔티티 저장 성공시 매핑된 엔티티 반환 )
+                MemberEntity savedEntity = memberEntityRepository.save(memberDto.toEntity()); // insert
+                // 3. 엔티티 생성이 되었는지 아닌지 확인 (PK)
+                if(savedEntity.getMno() > 0){
+                    return 1;
+                }
+            }catch (Exception e){
+                System.out.println("e = " + e);
+                return -1;
             }
-        }catch (Exception e){
-            System.out.println("e = " + e);
         }
-        return false;
+        return result;
     }
 
     // * 로그인 했다는 증거/기록
@@ -73,7 +76,23 @@ public class MemberService {
         if (object != null){
             return  (MemberDto)object; // 강제 형변환
         }
+
         return null;
+    }
+
+    // 아이디 중복 검사 중복 0 , 중복통과 1
+    public int idCheck(MemberDto memberDto){
+        System.out.println("MemberService.idCheck");
+        // 1. 리포지토리를 통한 모든 회원 엔티티 호출
+        List<MemberEntity> memberEntityList = memberEntityRepository.findAll();
+        // 리스트에서 아이디 중복 검사
+        for(int i = 0 ; i < memberEntityList.size() ;i++){
+            MemberEntity m = memberEntityList.get(i);
+            if (m.getMemail().equals(memberDto.getMemail())){
+                return 0;
+            }
+        }
+        return 1;
     }
 
 }

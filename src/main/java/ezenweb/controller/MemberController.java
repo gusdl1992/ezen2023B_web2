@@ -14,10 +14,12 @@ public class MemberController {
     @Autowired private MemberService memberService;
 
     @PostMapping("/signup/post.do") // 1. 회원가입
-    public boolean doSignupPost(@RequestBody MemberDto memberDto){
+    public int doSignupPost(@RequestBody MemberDto memberDto){
         System.out.println("memberDto = " + memberDto);
         return memberService.doSignupPost(memberDto);
     }
+
+
 
     @PostMapping("/login/post.do") // 2. 로그인
     public boolean doLoginPost( MemberDto memberDto){

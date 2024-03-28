@@ -19,9 +19,18 @@ export default function Header(props){
         .catch( r => {console.log(r); })
     },[] );
 
+    // 로그아웃 버튼 클릭시 서버 로그아웃 요청
+    function logoutBtn(){
+        axios.get('/member/logout/get.do')
+        .then( r => {console.log(r); 
+            setLoginInfo('');   // 로그아웃 후 useState loginInfo 공백 처리.
+        })
+        .catch( r => {console.log(r); })
+    }
+
     return(<>
         <div>
-            {loginInfo && <span>{loginInfo.memail} 님 안녕하세요.</span>}
+            {loginInfo && <span>{loginInfo.memail} 님 안녕하세요. <button type="button" onClick={logoutBtn}>로그아웃</button></span>}
             <ul>
                 <li><Link to="/">홈</Link></li>
                 <li><Link to="/member/signup">회원가입</Link></li>
