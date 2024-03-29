@@ -1,6 +1,7 @@
 package ezenweb.controller;
 
 
+import ezenweb.model.dto.BoardDto;
 import ezenweb.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,9 @@ public class BoardController {
 
 
     @PostMapping("/post.do")
-    public boolean postBoard(){
+    public boolean postBoard(BoardDto boardDto){
         // 엔티티 객체 = 레코드
-        return boardService.postBoard();
+        return boardService.postBoard(boardDto);
     }
 
 
