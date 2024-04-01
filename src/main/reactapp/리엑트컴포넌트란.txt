@@ -136,6 +136,28 @@ useState() 이란 ? p.215
 				- state 수정할수 있는 함수
 				- 1. 호출시 해당 컴포넌트 렌더링
 				- 2. 수정 기준 : 주소값( 주로: 객체/배열 ) , 원시타입( 원시타입은 값만 바뀌어도 재렌더링 )
+					- 배열, 객체 복사 ( 주소값이 바뀌니까 )
+						- 복사방법
+							1. map (얇은 복사)
+							2. ... ( 스프레드 연산자 )
+							- 안되는 예시
+								let array = [ 1, 2, 3]
+								array[0] = 4; // 랜더링 안됨 주소값이 그대로라서 
+								setState(array);
+							- 해결방안
+								let array = [ 1, 2, 3]
+								array[0] = 4; // 랜더링 안됨 주소값이 그대로라서 
+								setState( [...array] );
+
+						객체 복사 :
+							- 안되는 예시
+								let object = { name : '유재석' , age :12 };
+								object.age = 40;
+								setState(object);
+							- 해결 방안
+								let object = { name : '유재석' , age :12 };
+								object.age = 40;
+								setState( {...object} );
 				- 3. 이벤트 핸들러 매객변수( prev~~~  ) : 기존 값 호출
 					setState( (prev~~~) => {} )
 
@@ -150,6 +172,28 @@ useEffect() 이란?
 				출생,사망 ( 해당 컴포넌트 재렌더링시 해당 함수 실행 안됨. )
 			3. useEffect( 함수, [ start1 , start2 ] )
 				출생,사망,*(의존성배열내 포함된 state 가 변경될때) 업데이트
+	
+	3. [] : 의존생 배열  * 빼먹을시 무한로딩 (순환참조)
+
+
+메모이제이션을 이용한 최적화*
+
+useMemo(  ()=> { return 값 }  , [ 의존성배열 ])	: 의존성 배열이 변경될떄 값 반환
+	vs
+useCallback( ()=> { 함수() } , [ 의존성배열 ] )	 : 의존성 배열이 변경될때 함수 반환
+	vs
+useEffect( ()=> {}  , [의존성 배열] )
+
+useRef() 이란 ?
+	1. 정의 : 매번 렌더링 될 떄마다 항상 같은 ref 객체를 반환하는 훅
+	2. 사용법
+		1. 선업 : const refValue =  useRef(초기값);
+		2. 호출 : refValue
+			{ current : 초기값또는 값 }
+		3. 값 호출 : refValue.current
+	3. 주의할점
+		1. current 속성의 값이 변경되더라도 재렌더링은 되지 않는다.
+		2. 주로 사용처 : Form , 통신세션 등등
 
 
 

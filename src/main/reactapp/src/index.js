@@ -22,6 +22,7 @@ import CommentList from './chapter5/CommentList';
 // chapter7 예제/실습
 import Counter from './chapter7/Counter';
 import UseStateList from './chapter7/UseStateList';
+import TextInputWithFocusButton from './chapter7/TextInputWithFocusButton';
 import Counter2 from './chapter7/Counter2';
 
 // chapter8 예제/실습
@@ -53,6 +54,8 @@ import Calculator from './chapter12/Calculator';
 // chapter 13
 import ProfileCard from './chapter13/chapter13_실습/ProfileCard';
 
+// // chapter 13 실습
+import DarkOrLight from './chapter14/DarkOrLight';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -61,6 +64,7 @@ root.render(
   // <Counter/>
   //<UseStateList/>
   // <Counter2/>
+  //<TextInputWithFocusButton/>
 
   // 챕터 8
   //<ConfirmButton/>
@@ -82,6 +86,9 @@ root.render(
   <Index/>
   //<Calculator/>
   // <ProfileCard/>
+
+  // 챕터 14
+  // <DarkOrLight/>
 );
 
 
