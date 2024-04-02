@@ -7,11 +7,13 @@ import ezenweb.model.entity.BoardImgEntity;
 import ezenweb.model.entity.MemberEntity;
 import ezenweb.model.entity.ReplyEntity;
 import ezenweb.model.repository.BoardEntityRepository;
+import ezenweb.model.repository.BoardImgeEntityRepository;
 import ezenweb.model.repository.MemberEntityRepository;
 import ezenweb.model.repository.ReplyEntityRepositoty;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +30,20 @@ public class BoardService {
     private MemberEntityRepository memberEntityRepository;
     @Autowired
     private ReplyEntityRepositoty replyEntityRepositoty;
+    @Autowired
+    private MemberService memberService;
+    @Autowired
+    private FileService fileService;
+    @Autowired
+    private BoardImgeEntityRepository boardImgeEntityRepository;
 
-    @Autowired private MemberService memberService;
     // 1. C
     @Transactional
     public boolean postBoard(BoardDto boardDto){
+
+
+
+
         // ========== 테스트 =========
         // 0. 회원 번호 찾기
         MemberDto loginDto = memberService.doLoginInfo();
@@ -45,14 +56,29 @@ public class BoardService {
         if (!optionalMemberEntity.isPresent()) return false;
         // 3. 엔티티 꺼내기
         MemberEntity memberEntity = optionalMemberEntity.get();
-
         // - 글쓰기
         BoardEntity saveBoard = boardEntityRepository.save(boardDto.toEntity());
+
+
         // - FK 대입
         if (saveBoard.getBno() >= 1){ // 글쓰기를 성공 했으면
             saveBoard.setMemberEntity(memberEntity);
+        }
+
+        // 파일 업로드 테스트
+        if ( !boardDto.getUploadList().isEmpty() ){ // 첨부파일이 존재하면
+            for (int i = 0 ; i < boardDto.getUploadList().size() ; i++){
+                String fileName = fileService.fileUpload(boardDto.getUploadList().get(i));
+                // save 빈객체 생성
+                BoardImgEntity boardImgEntity = BoardImgEntity.builder()
+                        .bimg(fileName)
+                        .boardEntity(saveBoard)
+                        .build();
+                boardImgeEntityRepository.save(boardImgEntity);
+            }
             return true;
         }
+
         return false;
     }
     // 2. R

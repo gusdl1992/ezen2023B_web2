@@ -1,6 +1,7 @@
 package ezenweb.model.dto;
 
 import ezenweb.model.entity.BoardEntity;
+import ezenweb.model.entity.BoardImgEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +26,8 @@ public class BoardDto extends BaseTimeDto{
     private List<String> bimgList = new ArrayList<>();
     // 2. 등록용 게시물 이미지 필드 ( JS ---Multipart/Form(바이트) ---> SPRING )
     private List<MultipartFile> uploadList = new ArrayList<>();
+
+
 
     // - 글쓰기
     public BoardEntity toEntity(){
