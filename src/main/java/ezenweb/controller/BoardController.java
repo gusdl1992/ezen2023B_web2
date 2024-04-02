@@ -21,6 +21,7 @@ public class BoardController {
     @PostMapping("/post.do")
     public boolean postBoard(BoardDto boardDto){
         // 엔티티 객체 = 레코드
+        System.out.println("boardDto = " + boardDto);
         return boardService.postBoard(boardDto);
     }
 

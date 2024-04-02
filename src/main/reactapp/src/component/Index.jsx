@@ -5,8 +5,11 @@ import Home from "./layout/Home";
 import SignUp from "./member/SignUp";
 import Login from "./member/Login";
 import React, { useState } from "react";
+// import BoardWrite from "./board/내가한거/BoardWrite";
+// import Board from "./board/내가한거/Board";
 import BoardWrite from "./board/BoardWrite";
-import Board from "./board/Board";
+import BoardList from "./board/BoardList";
+
 
 
 // ======== 컨텍스트 만들기 =========== //
@@ -30,7 +33,7 @@ export default function Index(props){
                     <Route path="/member/signup" element={<SignUp />}/>
                     <Route path="/member/login" element={<Login/>} />
                     <Route path="/board/write" element={<BoardWrite/>} />
-                    <Route path="/board" element={<Board/>} />
+                    <Route path="/board" element={<BoardList/>} />
                 </Routes>
                 <Footer/>
             </div>
