@@ -20,18 +20,25 @@ public class FileService {
     @Autowired
     private HttpServletResponse response; // HTTP 로 응답을 보낼 정보와 기능/메소드 가지고 있는 객체
 
-    // 어디에(PATH) 누구를(파일객체 MultipartFile )
+    // 1. 업로드 경로
+        // 어디에(PATH) 누구를(파일객체 MultipartFile )
+        // 내장서버 경로
     String uploadPath = "C:\\Users\\504\\Desktop\\ezen2023B_web2\\build\\resources\\main\\static\\uploadimg\\";
+        // AWS 경로
 
-    // 1. 업로드 서비스 메소드
+    // 2. 업로드 서비스 메소드 ( 하나의 multipartFile 존재하는 파일 업로드 )
     public String fileUpload( MultipartFile multipartFile){
         // * 파일 이름 조합하기 : 새로운 식별이름과 실제 파일 이름
         String uuid = UUID.randomUUID().toString();
+        // 2. 조합( UUID 와 파일이름의 구번선이 _ 이기떄문에 파일명에 _ 존재할수도 있기때문에 _ 를 - 치환 )
         String filename  = uuid+"_"+multipartFile.getOriginalFilename().replaceAll("_","-");
         // 1. [어디에] 첨부파일을 저장할 경로
         // File 클래스 : 파일 관련된 메소드 제공.
         File file = new File( uploadPath+filename );
         // 2. [무엇을] 첨부파일 객체
+        
+        
+        
         // .transferTo( 경로 )
         try { multipartFile.transferTo( file );}
         catch ( Exception e ){

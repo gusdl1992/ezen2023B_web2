@@ -33,14 +33,14 @@ public class BoardEntity extends BaseTime{ // 테이블
     private MemberEntity memberEntity;
 
 
-    // 양방향 : 댓글 FK
-    @OneToMany(mappedBy = "boardEntity")
+    // 양방향 : 댓글 FK ** cascade = CascadeType.ALL 연결되어있는 테이블 같이 삭제
+    @OneToMany(mappedBy = "boardEntity" , orphanRemoval = true , cascade = CascadeType.ALL)
     @ToString.Exclude
     @Builder.Default
     private List<ReplyEntity> replyEntityList = new ArrayList<>();
 
     // 양방향 설정
-    @OneToMany(mappedBy = "boardEntity")
+    @OneToMany(mappedBy = "boardEntity" ,orphanRemoval = true  , cascade = CascadeType.ALL)
     @ToString.Exclude
     @Builder.Default
     private List<BoardImgEntity> boardImgEntityList = new ArrayList<>();

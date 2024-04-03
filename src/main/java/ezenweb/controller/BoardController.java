@@ -2,6 +2,8 @@ package ezenweb.controller;
 
 
 import ezenweb.model.dto.BoardDto;
+import ezenweb.model.dto.MemberDto;
+import ezenweb.model.dto.PageDto;
 import ezenweb.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,15 +30,22 @@ public class BoardController {
 
 
     @GetMapping("/get.do")
-    public List<BoardDto> getBoard(){
-        return boardService.getBoard();
+    public PageDto getBoard(@RequestParam int page , @RequestParam int view)
+    {
+        System.out.println("BoardController.getBoard");
+        System.out.println("page = " + page);
+        System.out.println("view = " + view);
+        return boardService.getBoard(page, view);
+
     }
     @PutMapping("/put.do")
     public boolean putBoard(){
         return boardService.putBoard();
     }
     @DeleteMapping("/delete.do")
-    public boolean deleteBoard(){
-        return boardService.deleteBoard();
+    public boolean deleteBoard(@RequestParam int bno){
+
+
+        return boardService.deleteBoard(bno);
     }
 }

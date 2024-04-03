@@ -2,6 +2,7 @@ package ezenweb.service;
 
 import ezenweb.model.dto.BoardDto;
 import ezenweb.model.dto.MemberDto;
+import ezenweb.model.dto.PageDto;
 import ezenweb.model.entity.BoardEntity;
 import ezenweb.model.entity.BoardImgEntity;
 import ezenweb.model.entity.MemberEntity;
@@ -12,6 +13,9 @@ import ezenweb.model.repository.MemberEntityRepository;
 import ezenweb.model.repository.ReplyEntityRepositoty;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,8 +46,6 @@ public class BoardService {
     public boolean postBoard(BoardDto boardDto){
 
 
-
-
         // ========== 테스트 =========
         // 0. 회원 번호 찾기
         MemberDto loginDto = memberService.doLoginInfo();
@@ -70,20 +72,54 @@ public class BoardService {
             for (int i = 0 ; i < boardDto.getUploadList().size() ; i++){
                 String fileName = fileService.fileUpload(boardDto.getUploadList().get(i));
                 // save 빈객체 생성
-                BoardImgEntity boardImgEntity = BoardImgEntity.builder()
-                        .bimg(fileName)
-                        .boardEntity(saveBoard)
-                        .build();
-                boardImgeEntityRepository.save(boardImgEntity);
+                if (fileName != null){
+                    BoardImgEntity boardImgEntity = BoardImgEntity.builder()
+                            .bimg(fileName) // 방금 위에 업로드된 파일명을 엔티티에 대입
+                            .boardEntity(saveBoard) // FK : 게시물 FK
+                            .build();
+                    // 엔티티 영속성 ( 영속성이 필요한 이유 : DB 저장할려고 => 서버가 종료되면 자바는 사라지니까 )
+                    boardImgeEntityRepository.save(boardImgEntity);
+                }
             }
             return true;
         }
-
         return false;
     }
     // 2. R
     @Transactional
-    public List<BoardDto> getBoard(){
+    public PageDto getBoard(int page , int view){
+
+        // ========   MAP 스트림 사용    ========
+
+        // 1. pageable 인터페이스를 이용한 페이징 처리  ( import org.springframework.data.domain.Pageable; )
+        // Pageable pageable = PageRequest.of(현재페이지 , 페이지당 표시할 레코드 수)
+        // - 현재 페이지는 0부터 시작 -> Pageable pageable = PageRequest.of(0,4) -> 1page 에서 4개만
+        // findAll( pageable ) , find~~~( pageable )
+        // pageable 은 page 순서를  0부터 시작하기 때문에 page 가 1페이지 일때  0페이지로 변환 하기 위해 -1
+        Pageable pageable = PageRequest.of(page-1,view);
+        // 2. * 페이징처리된 엔티티 호출
+        Page<BoardEntity> boardEntityPage = boardEntityRepository.findAll(pageable);
+
+        // -- List 아닌 Page 타입일때 List 동일한 메소드 사용하고 추가 기능
+        // 1. 전체 페이지 수 - boardEntityPage.getTotalPages() 토탈 페이지
+        System.out.println("boardEntityPage.getTotalPages() = " + boardEntityPage.getTotalPages());
+        int count = boardEntityPage.getTotalPages();
+        // 2. 전체 게시물 수- boardEntityPage.getTotalElements() 전체 레코드 수
+        System.out.println("boardEntityPage.getTotalElements() = " + boardEntityPage.getTotalElements());
+
+        // 엔티티를 Dto 변환
+        List<Object> data = boardEntityPage.stream().map( (boardEntity)->{
+            return boardEntity.toDto();
+        }).collect(Collectors.toList());
+
+        // 2. 페이지 반환값 구성
+        PageDto pageDto = PageDto.builder()
+                .data(data) // 페이징 처리된 레코드 들을 대입
+                .page(page) // 현재 페이지 수
+                .count(count) // 전체 페이지 수
+                .build();
+        return pageDto;
+
         // ================= 1 MAP X ===============================
 /*
         // 1. 리포지토리를 이용한 모든 엔티티를 호출
@@ -112,10 +148,7 @@ public class BoardService {
         return boardDtoList;
 */
         // ============================================================
-        // ========   MAP 스트림 사용    ========
-        return boardEntityRepository.findAll().stream().map( (boardEntity)->{
-               return boardEntity.toDto();
-        }).collect(Collectors.toList());
+
 
     }
     // 3. U
@@ -127,9 +160,19 @@ public class BoardService {
     }
     // 4. D
     @Transactional
-    public boolean deleteBoard(){
-        boardEntityRepository.deleteById(1);
+    public boolean deleteBoard(int bno){
+        
+        // 1. 회원번호 = 회원서비스에 검증
+        MemberDto memberDto = memberService.doLoginInfo();
+        if (memberDto == null) return false;
+        // 2. 내 게시물 확인
+        Optional<BoardEntity> optionalBoardEntity = boardEntityRepository.findById(bno);
+        if (optionalBoardEntity.isPresent()){
+            if( optionalBoardEntity.get().getMemberEntity().getMno() ==  memberDto.getMno() ){
+                boardEntityRepository.deleteById(bno);
+                return true;
+            }
+        }
         return false;
-    }
-
-}
+    } //  m e
+} // c e
