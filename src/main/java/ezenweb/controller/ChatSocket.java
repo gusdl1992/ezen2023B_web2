@@ -36,6 +36,7 @@ public class ChatSocket extends TextWebSocketHandler {
             각클라이언트소켓.sendMessage(message);
             // DB 처리시 여기서 DB 처리 한다.
 
+
         }
     }
 
