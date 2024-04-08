@@ -9,6 +9,7 @@ import React, { useState } from "react";
 // import Board from "./board/내가한거/Board";
 import BoardWrite from "./board/BoardWrite";
 import BoardList from "./board/BoardList";
+import Chatting from "./chat/Chatting";
 
 
 
@@ -34,6 +35,7 @@ export default function Index(props){
                     <Route path="/member/login" element={<Login/>} />
                     <Route path="/board/write" element={<BoardWrite/>} />
                     <Route path="/board" element={<BoardList/>} />
+                    <Route path="/chat" element={<Chatting/>} />
                 </Routes>
                 <Footer/>
             </div>
