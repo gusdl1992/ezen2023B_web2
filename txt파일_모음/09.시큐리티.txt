@@ -1,0 +1,21 @@
+스프링 시큐리티 6.0 (최신버전)
+    - 인가 , 인증 관련 아키텍처/기능 제공
+        - 인가 : 특정 리소스(자원)에 접근하기 위한 권한이 맞는지 확인 - 예) 여권 발급
+        - 인증 : 특정 리소스(자원)에 접근하기 위한 발급된 권한 확인   - 예) 여권
+            - 권한 : 특정 리소스(자원)에 접근하기 위한 권리가 주어짐
+
+    - 대표 기능
+        1. 로그인 , 2. 로그아웃 3. 소셜로그인 4. CSRF(body 사용금지) 방지 , 5. 토큰(징표/인증권한상태)
+    - 앞전에 로그인/로그아웃 컨트롤러를 구현 했다면 코드 제거
+        - 이유 : 시큐리티가 로그인 과 로그아웃
+
+    - 용어
+
+
+    - 구현 ( 버전 차이 : Spring Security 6.x)
+    1. 그레이들에 라이브러리 추가
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    2. 스프링 서버 실행
+        userName : user
+        userPassword : 콘솔 Using generated security password: 값
