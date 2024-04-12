@@ -13,43 +13,42 @@ import java.util.List;
 @NoArgsConstructor@AllArgsConstructor
 @Setter @Getter @ToString @Builder
 public class MemberEntity extends BaseTime{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // PK
+    @GeneratedValue( strategy = GenerationType.IDENTITY) // AUTO_INCREMENT
     private int mno;
-    @Column(length = 50 , unique = true)
+
+    @Column( length = 50 , unique = true )      // varchar(50) unique
     private String memail;
 
-    @Column(length = 255)
+    @Column( length = 255 )                      // varchar(255)
     private String mpassword;
 
-    @Column(length = 20 , nullable = false)
+    @Column( length = 20   , nullable = false) // varchar(20) , not null
     private String mname;
 
-    @Column(name = "mrol")
-    @ColumnDefault("'user'") // 문자 '' , 숫자 // nullable = false 디폴트가 적용이안됬다...
+    @Column( name = "mrol" ) // varchar(255) , not null
+    @ColumnDefault( "'USER'") // 문자 '' , 숫자    // @ColumnDefault +  클래스 @DynamicInsert
     private String mrol;
 
-
-    // 양방향 : 게시물 FK   ** @OneToMany(mappedBy = "해당테이블 fk 자바필드명" )
-    @OneToMany(mappedBy = "memberEntity" ) // 자바에서만 양방향
+    // 양방향 : 게시물fk      @OneToMany( mappedBy = "해당테이블 fk자바필드명")
+    @OneToMany( mappedBy = "memberEntity") // 자바에서만 양방향
     @ToString.Exclude // 해당 객체 호출시 해당 필드는 호출하지 않는다.
-    @Builder.Default  // 빌더패턴 사용해서 객체 생성시 해당 필드의 초기값을 빌더 초기값으로 사용.
+    @Builder.Default // 빌더패턴 사용해서 객체생성시 해당 필드의 초기값을 빌더 초기값으로 사용.
     private List<BoardEntity> boardEntityList = new ArrayList<>();
 
-    // 양방향 : 댓글 FK
-    @OneToMany(mappedBy = "memberEntity" )
-    @ToString.Exclude // 해당 객체 호출시 해당 필드는 호출하지 않는다.
+    // 양방향 : 댓글fk
+    @OneToMany( mappedBy = "memberEntity")
+    @ToString.Exclude
     @Builder.Default
     private List<ReplyEntity> replyEntityList = new ArrayList<>();
-    
-    
-    // - 엔티티를 dto로 변환하는 메소드 // 되야되는 이유 호출 R
+
+    // - 엔티티를 dto로 변환하는 메소드 // R
     public MemberDto toDto(){
         return MemberDto.builder()
-                .mno(this.mno)
-                .mname(this.mname)
-                .memail(this.memail)
-                .mrol(this.mrol)
+                .mno( this.mno )
+                .mname( this.mname )
+                .memail( this.memail )
+                .mrol( this.mrol )
                 .build();
     }
 }

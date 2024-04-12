@@ -15,6 +15,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,7 +27,17 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class MemberService implements UserDetailsService {
+public class MemberService implements UserDetailsService ,
+        OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+
+    // - ( 시큐리티/소셜회원 ) 로그인 서비스 커스텀
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+
+        return null;
+    }
+
+
 
     @Autowired
     MemberEntityRepository memberEntityRepository;
@@ -36,12 +50,12 @@ public class MemberService implements UserDetailsService {
         // 2. 입력받은 아이디로 실제 아이디와 실제 (암호회된) 패스워드
             // 2-1 memail 이용한 회원 엔티티 찾기
         MemberEntity memberEntity = memberEntityRepository.findByMemail(memail);
-        
+
         // - ROLE 부여
         List<GrantedAuthority> 등급목록 = new ArrayList<>();
         등급목록.add( new SimpleGrantedAuthority("ROLE_USER")); // ROLE_등급명
 
-        
+
         // 3. UserDetails 반환 [ 1.실제 아이디 2. 실제 패스워드 ]
             // UserDetails 목적 : Token 에 입력받은 아이디/패스워드 검증하기 위한 실제 정보 반환.
         UserDetails userDetails = User.builder()
@@ -82,15 +96,15 @@ public class MemberService implements UserDetailsService {
 
 //    // 2. 로그인 ( 세션 저장 ) // 스프링 시큐리티 사용으로 인하여 사용안함
 //    public boolean doLoginPost(MemberDto memberDto){
-//        
+//
 //        // 1.
 ////        MemberEntity result1 = memberEntityRepository.findByMemailAndMpassword(memberDto.getMemail() , memberDto.getMpassword());
 ////        System.out.println("result1 = " + result1);
-//        
+//
 //        // 2.
 ////        boolean result2 = memberEntityRepository.existsByMemailAndMpassword(memberDto.getMemail() , memberDto.getMpassword());
 ////        System.out.println("result2 = " + result2);
-//        
+//
 //        // 3.
 //        MemberEntity result3 = memberEntityRepository.findByLoginSql(
 //                memberDto.getMemail() , memberDto.getMpassword()
@@ -153,7 +167,7 @@ public class MemberService implements UserDetailsService {
         }
         return 1;
     }
-    
+
     // 5. 아이디/이메일 중복검사 ( 선생님 코드 )
     public boolean getFindMemail(String memail){
         // 1. 모든 엔티티에서 해당 필드의 값을 찾는다.
@@ -164,15 +178,15 @@ public class MemberService implements UserDetailsService {
                 System.out.println("memberEntity = " + memberEntity);
             }
         }
-        
+
         // 2. 리포지토리 추상 메소드 이용하는방법
 //        MemberEntity result1 = memberEntityRepository.findByMemail(memail);
 //        System.out.println("result1 = " + result1);
-        
+
         // 3. 특정 필드의 조건으로 존재여부 검색
         boolean result2 = memberEntityRepository.existsByMemail(memail);
         System.out.println("result2 = " + result2);
-        
+
         // 4. 직접 native SQL 지원
 //        MemberEntity result3 = memberEntityRepository.findByMemilSQL(memail);
 //        System.out.println("result3 = " + result3);
